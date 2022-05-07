@@ -1,0 +1,11 @@
+
+# Import cache
+.import/
+
+# Binaries
+bin/
+build/
+lib/
+
+# External tools
+.vscode

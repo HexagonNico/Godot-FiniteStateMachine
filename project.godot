@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://addons/hexagon-fsm/state.gd"
+}, {
+"base": "State",
+"class": "TemplateState",
+"language": "GDScript",
+"path": "res://script_templates/state.gd"
+}, {
+"base": "State",
+"class": "TestState",
+"language": "GDScript",
+"path": "res://assets/test_state.gd"
+} ]
+_global_script_class_icons={
+"State": "",
+"TemplateState": "",
+"TestState": ""
+}
+
+[application]
+
+config/name="FSM Plugin"
+run/main_scene="res://assets/test.tscn"
+config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/hexagon-fsm/plugin.cfg" )
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
