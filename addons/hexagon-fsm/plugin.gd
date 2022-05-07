@@ -4,7 +4,7 @@ extends EditorPlugin
 
 # Initialization of the plugin
 func _enter_tree():
-	add_custom_type("FiniteStateMachine", "Node", preload("fsm.gd"), null)
+	add_custom_type("FiniteStateMachine", "Node", preload("fsm.gd"), preload("fsm.png"))
 
 
 # Clean up of the plugin
