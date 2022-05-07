@@ -1,4 +1,4 @@
-class_name TemplateState
+class_name TemplateState # Replace this with your state's name
 extends State
 
 

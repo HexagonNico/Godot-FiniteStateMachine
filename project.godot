@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "State",
 "class": "TemplateState",
 "language": "GDScript",
-"path": "res://script_templates/state.gd"
+"path": "res://script_templates/fsm_state_template.gd"
 }, {
 "base": "State",
 "class": "TestState",
