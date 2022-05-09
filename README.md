@@ -1,7 +1,9 @@
 
-# Hexagon FiniteStateMachine
-
 ![Icon](icon.png)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X87EZ87)
+
+# Hexagon FiniteStateMachine
 
 Adds node types for finite state machines and states
 
