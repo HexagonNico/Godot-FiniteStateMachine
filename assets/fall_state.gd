@@ -19,7 +19,7 @@ func _physics_process_state(delta: float):
 	character.velocity = character.move_and_slide(character.velocity)
 
 
-func _on_DetectGround_area_exited(_area):
+func _on_DetectGround_body_exited(_body):
 	var fsm = get_parent()
 	if not fsm.current_state is JumpState:
 		fsm.current_state = self

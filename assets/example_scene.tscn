@@ -10,7 +10,7 @@ extents = Vector2( 352, 5 )
 [node name="ExampleCharacter" parent="." instance=ExtResource( 1 )]
 position = Vector2( 320, 512 )
 
-[node name="Ground" type="Area2D" parent="."]
+[node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2( 1, 0 )
 collision_layer = 2
 collision_mask = 0

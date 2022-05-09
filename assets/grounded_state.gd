@@ -20,5 +20,5 @@ func _physics_process_state(_delta: float):
 	character.velocity = character.move_and_slide(character.velocity)
 
 
-func _on_DetectGround_area_entered(area):
+func _on_DetectGround_body_entered(_body):
 	get_parent().current_state = self

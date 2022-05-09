@@ -43,5 +43,5 @@ collision_mask = 2
 position = Vector2( 0, 26.5 )
 shape = SubResource( 2 )
 
-[connection signal="area_entered" from="DetectGround" to="FiniteStateMachine/GroundedState" method="_on_DetectGround_area_entered"]
-[connection signal="area_exited" from="DetectGround" to="FiniteStateMachine/FallState" method="_on_DetectGround_area_exited"]
+[connection signal="body_entered" from="DetectGround" to="FiniteStateMachine/GroundedState" method="_on_DetectGround_body_entered"]
+[connection signal="body_exited" from="DetectGround" to="FiniteStateMachine/FallState" method="_on_DetectGround_body_exited"]
