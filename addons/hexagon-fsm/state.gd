@@ -6,28 +6,25 @@ extends Node
 # Add this as a child of a finite state machine node
 
 
-# Path to the base node the state machine is using
-# Tipically your character's node
-export(NodePath) var base_node_path = "../.."
-# The base node the state machine is using
-onready var base_node = get_node_or_null(base_node_path)
-
-
+# Virtual function to be implemented by a subclass
 # Called when a state enters the finite state machine
-func _enter_state():
+func _enter_state() -> void:
 	pass
 
 
+# Virtual function to be implemented by a subclass
 # Called every frame by the finite state machine's process method
-func _process_state(delta: float):
+func _process_state(_delta: float) -> void:
 	pass
 
 
+# Virtual function to be implemented by a subclass
 # Called every frame by the finite state machine's physics process method
-func _physics_process_state(delta: float):
+func _physics_process_state(_delta: float) -> void:
 	pass
 
 
+# Virtual function to be implemented by a subclass
 # Called when a state exits the finte state machine
-func _exit_state():
+func _exit_state() -> void:
 	pass

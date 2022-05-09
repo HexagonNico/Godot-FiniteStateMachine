@@ -9,6 +9,26 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "ExampleCharacter",
+"language": "GDScript",
+"path": "res://assets/example_character.gd"
+}, {
+"base": "State",
+"class": "FallState",
+"language": "GDScript",
+"path": "res://assets/fall_state.gd"
+}, {
+"base": "State",
+"class": "GroundedState",
+"language": "GDScript",
+"path": "res://assets/grounded_state.gd"
+}, {
+"base": "State",
+"class": "JumpState",
+"language": "GDScript",
+"path": "res://assets/jump_state.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -18,22 +38,20 @@ _global_script_classes=[ {
 "class": "TemplateState",
 "language": "GDScript",
 "path": "res://script_templates/fsm_state_template.gd"
-}, {
-"base": "State",
-"class": "TestState",
-"language": "GDScript",
-"path": "res://assets/test_state.gd"
 } ]
 _global_script_class_icons={
+"ExampleCharacter": "",
+"FallState": "",
+"GroundedState": "",
+"JumpState": "",
 "State": "",
-"TemplateState": "",
-"TestState": ""
+"TemplateState": ""
 }
 
 [application]
 
 config/name="FSM Plugin"
-run/main_scene="res://assets/test.tscn"
+run/main_scene="res://assets/example_scene.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
