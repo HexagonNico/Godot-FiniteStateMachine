@@ -9,12 +9,12 @@ Adds node types for finite state machines and states.
 
 The procedure is the same as other Godot plugins.
 
-0. Go to the [Releases section](https://github.com/HexagonNico/GodotPlugin-FiniteStateMachine/releases) and download the latest version.
+1. Go to the [Releases section](https://github.com/HexagonNico/GodotPlugin-FiniteStateMachine/releases) and download the latest version.
 
-0. Extract the zip archive and copy the `addons` and the `script_templates` folders into your project's directory.
+2. Extract the zip archive and copy the `addons` and the `script_templates` folders into your project's directory.
 You don't need the contents of the `example` folder.
 
-0. Go to `Project -> Project Settings... -> Plugins` and enable the plugin by checking "Enable"
+3. Go to `Project -> Project Settings... -> Plugins` and enable the plugin by checking "Enable"
 
 See the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html) for a full explanation.
 
