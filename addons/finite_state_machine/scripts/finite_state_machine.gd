@@ -1,3 +1,4 @@
+@icon("res://addons/finite_state_machine/icons/finite_state_machine.svg")
 class_name FiniteStateMachine
 extends Node
 

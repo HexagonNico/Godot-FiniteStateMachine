@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cn8rcyoq1f1cc"]
+
+[ext_resource type="PackedScene" uid="uid://cf7fpnsgytoc2" path="res://example/scenes/example_character.tscn" id="1_6fsvm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoogl"]
+size = Vector2(1024, 64)
+
+[node name="ExampleScene" type="Node2D"]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape" type="CollisionShape2D" parent="Floor"]
+position = Vector2(576, 544)
+shape = SubResource("RectangleShape2D_aoogl")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Polygon" type="Polygon2D" parent="Floor"]
+color = Color(0, 0.6, 0.701961, 1)
+polygon = PackedVector2Array(64, 512, 64, 576, 1088, 576, 1088, 512)
+metadata/_edit_lock_ = true
+
+[node name="ExampleCharacter" parent="." instance=ExtResource("1_6fsvm")]
+position = Vector2(192, 496)

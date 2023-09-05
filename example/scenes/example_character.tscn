@@ -1,0 +1,137 @@
+[gd_scene load_steps=14 format=3 uid="uid://cf7fpnsgytoc2"]
+
+[ext_resource type="Texture2D" uid="uid://cca4q4wamp7ng" path="res://example/sprites/arrow.png" id="1_3xuxr"]
+[ext_resource type="Script" path="res://example/scenes/example_character.gd" id="1_bqwpn"]
+[ext_resource type="Script" path="res://addons/finite_state_machine/scripts/finite_state_machine.gd" id="2_s8tvj"]
+[ext_resource type="Script" path="res://example/scripts/walk_state.gd" id="4_tt3hl"]
+[ext_resource type="Script" path="res://example/scripts/jump_state.gd" id="5_nues7"]
+[ext_resource type="Script" path="res://example/scripts/run_state.gd" id="6_a1and"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdw5y"]
+size = Vector2(32, 32)
+
+[sub_resource type="Animation" id="Animation_bo2f5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TestSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_243kx"]
+resource_name = "walk_left"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TestSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 5, 4]
+}
+
+[sub_resource type="Animation" id="Animation_qvm5k"]
+resource_name = "walk_right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TestSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 10]
+}
+
+[sub_resource type="Animation" id="Animation_y4xt3"]
+resource_name = "fall"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TestSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_sjykm"]
+resource_name = "jump"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TestSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_amq2f"]
+_data = {
+"RESET": SubResource("Animation_bo2f5"),
+"fall": SubResource("Animation_y4xt3"),
+"jump": SubResource("Animation_sjykm"),
+"walk_left": SubResource("Animation_243kx"),
+"walk_right": SubResource("Animation_qvm5k")
+}
+
+[node name="ExampleCharacter" type="CharacterBody2D"]
+script = ExtResource("1_bqwpn")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pdw5y")
+
+[node name="TestSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_3xuxr")
+hframes = 3
+vframes = 4
+metadata/_edit_lock_ = true
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("2_s8tvj")
+current_state = NodePath("Walk")
+
+[node name="Walk" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("4_tt3hl")
+
+[node name="Jump" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_nues7")
+
+[node name="Run" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("6_a1and")
+speed = 700.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_amq2f")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
