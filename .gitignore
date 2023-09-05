@@ -1,11 +1,2 @@
-
-# Import cache
-.import/
-
-# Binaries
-bin/
-build/
-lib/
-
-# External tools
-.vscode
+# Godot 4+ specific ignores
+.godot/

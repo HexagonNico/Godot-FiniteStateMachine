@@ -6,62 +6,26 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "KinematicBody2D",
-"class": "ExampleCharacter",
-"language": "GDScript",
-"path": "res://assets/example_character.gd"
-}, {
-"base": "State",
-"class": "FallState",
-"language": "GDScript",
-"path": "res://assets/fall_state.gd"
-}, {
-"base": "State",
-"class": "GroundedState",
-"language": "GDScript",
-"path": "res://assets/grounded_state.gd"
-}, {
-"base": "State",
-"class": "JumpState",
-"language": "GDScript",
-"path": "res://assets/jump_state.gd"
-}, {
-"base": "Node",
-"class": "State",
-"language": "GDScript",
-"path": "res://addons/hexagon-fsm/state.gd"
-}, {
-"base": "State",
-"class": "TemplateState",
-"language": "GDScript",
-"path": "res://script_templates/fsm_state_template.gd"
-} ]
-_global_script_class_icons={
-"ExampleCharacter": "",
-"FallState": "",
-"GroundedState": "",
-"JumpState": "",
-"State": "",
-"TemplateState": ""
-}
+config_version=5
 
 [application]
 
-config/name="FSM Plugin"
-run/main_scene="res://assets/example_scene.tscn"
-config/icon="res://icon.png"
+config/name="Plugin-FSM"
+config/features=PackedStringArray("4.1", "Forward Plus")
+config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+gdscript/warnings/unsafe_cast=1
+gdscript/warnings/unsafe_call_argument=1
+gdscript/warnings/return_value_discarded=1
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/hexagon-fsm/plugin.cfg" )
+enabled=PackedStringArray("res://addons/finite_state_machine/plugin.cfg")
 
-[physics]
+[filesystem]
 
-common/enable_pause_aware_picking=true
-
-[rendering]
-
-environment/default_environment="res://default_env.tres"
+import/blender/enabled=false
