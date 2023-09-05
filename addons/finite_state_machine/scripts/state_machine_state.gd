@@ -2,11 +2,12 @@ class_name StateMachineState
 extends Node
 
 
-## Base class for all state machine states.
+## Abstract class used as base for state machine states.
+## Create a script that inherits from this class to create a state.
 
 
-# Reference to the state machine node.
-# Assigned when the state machine enters this state for the first time.
+# Reference to the state machine node assigned when the state machine enters this state.
+# Can be used to change the current state.
 var state_machine: FiniteStateMachine = null
 
 
@@ -35,9 +36,16 @@ func on_exit() -> void:
 	pass
 
 
+# Helper function that calls the 'change_state' function on the FiniteStateMachine node to change
+# the current state to the one with the given name. It is recomended to only call this function
+# from the current state, since it will fail if this state has not been the current state at least
+# once. To change the current state from another script, use the 'change_state' function on the
+# FiniteStateMachine node
 func change_state(state_name: String) -> void:
 	if is_instance_valid(state_machine):
 		state_machine.change_state(state_name)
+	else:
+		push_error("State ", self, " has not been yet initialized")
 
 
 # Checks if this state is the current one.
