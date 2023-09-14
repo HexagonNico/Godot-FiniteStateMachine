@@ -9,54 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "CharacterState",
-"class": "BaseState",
-"language": "GDScript",
-"path": "res://example/scripts/base_state.gd"
-}, {
-"base": "StateMachineState",
-"class": "CharacterState",
-"language": "GDScript",
-"path": "res://example/scripts/character_state.gd"
-}, {
 "base": "Node",
 "class": "FiniteStateMachine",
 "language": "GDScript",
 "path": "res://addons/finite_state_machine/scripts/finite_state_machine.gd"
 }, {
-"base": "CharacterState",
-"class": "JumpState",
-"language": "GDScript",
-"path": "res://example/scripts/jump_state.gd"
-}, {
-"base": "BaseState",
-"class": "RunState",
-"language": "GDScript",
-"path": "res://example/scripts/run_state.gd"
-}, {
 "base": "Node",
 "class": "StateMachineState",
 "language": "GDScript",
 "path": "res://addons/finite_state_machine/scripts/state_machine_state.gd"
-}, {
-"base": "BaseState",
-"class": "WalkState",
-"language": "GDScript",
-"path": "res://example/scripts/walk_state.gd"
 } ]
 _global_script_class_icons={
-"BaseState": "",
-"CharacterState": "",
 "FiniteStateMachine": "res://addons/finite_state_machine/icons/finite_state_machine.svg",
-"JumpState": "",
-"RunState": "",
-"StateMachineState": "res://addons/finite_state_machine/icons/state_machine_state.svg",
-"WalkState": ""
+"StateMachineState": "res://addons/finite_state_machine/icons/state_machine_state.svg"
 }
 
 [application]
 
 config/name="Finite State Machine"
+run/main_scene="res://example/scenes/example_scene.tscn"
 config/icon="res://icon.svg"
 
 [editor_plugins]

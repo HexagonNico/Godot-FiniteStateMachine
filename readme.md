@@ -8,7 +8,7 @@ Adds node types for finite state machines and states.
 ## Installing the plugin in your project
 
 The procedure is the same as other Godot plugins.
-See the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html) for a full explanation.
+See the [Godot docs](https://docs.godotengine.org/en/3.6/tutorials/plugins/editor/installing_plugins.html) for a full explanation.
 
 1. Click the **AssetLib** tab at the top of the editor and look for Finite State Machine.
 
@@ -20,7 +20,7 @@ It is also possible to install the plugin manually by downloading the zip archiv
 
 ## Plugin contents
 
-The plugin contains two [script classes](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#doc-gdscript-basics-class-name): `FiniteStateMachine` and `StateMachineState`.
+The plugin contains two [script classes](https://docs.godotengine.org/en/3.6/tutorials/scripting/gdscript/gdscript_basics.html#doc-gdscript-basics-class-name): `FiniteStateMachine` and `StateMachineState`.
 Both can be added to your scenes as nodes through the "Create New Node" menu.
 
 The **FiniteStateMachine** node can be added as a child of your character's node and will handle the state machine's logic.
