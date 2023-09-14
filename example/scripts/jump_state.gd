@@ -20,9 +20,8 @@ func on_process(delta: float) -> void:
 	else:
 		character.play_animation("jump")
 	character.velocity.y += gravity * delta
-	print(character.velocity)
 
 
 # Called every physics frame when this state is active.
 func on_physics_process(_delta: float) -> void:
-	character.velocity = character.move_and_slide(character.velocity)
+	character.velocity = character.move_and_slide(character.velocity, Vector2.UP)

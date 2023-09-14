@@ -12,15 +12,17 @@ extends Node
 signal state_changed(new_state)
 
 
+## The state machine's initial state that can be set from the inspector.
 export var _initial_state: NodePath
 
-## The state machine's current state.
-## Setting this state will call 'on_exit' on the previous state and 'on_enter' on the new state.
-## Assigning a state from the inspector allows to select an initial state.
-## Can be set to 'null' to clear the current state and stop the state machine.
+# The state machine's current state.
+# Setting this state will call 'on_exit' on the previous state and 'on_enter' on the new state.
+# Can be set to 'null' to clear the current state and stop the state machine.
 var current_state: StateMachineState = null setget set_current_state
 
+# Needed to keep track of whether the '_ready' function has been called or not.
 var _is_ready := false
+
 
 # Called when the node enters the scene tree. This function is called every time the node is
 # removed and readded to the scene and ensures 'on_enter' is always called on the current state
@@ -34,11 +36,10 @@ func _enter_tree() -> void:
 
 # Called when the node enters the scene tree for the first time. This function is only called once
 # during the node's lifetime and ensures that the 'on_enter' function on the initial state is
-# called after its '_ready' function, since the setter function of exported variables is called
-# before '_ready'.
+# called after its '_ready' function.
 func _ready() -> void:
 	_is_ready = true
-	set_current_state(get_node(_initial_state))
+	self.current_state = get_node(_initial_state)
 	if is_instance_valid(current_state):
 		current_state.on_enter()
 
@@ -80,6 +81,7 @@ func change_state(node_path: NodePath) -> void:
 		push_error(str("Node ", next_state, " at path ", node_path, " is not a StateMachineState"))
 
 
+# Setter function for 'current_state'.
 func set_current_state(next_state: StateMachineState) -> void:
 	# Exit from the previous state
 	if is_inside_tree() and is_instance_valid(current_state):

@@ -40,7 +40,7 @@ func on_exit() -> void:
 # the current state to the one with the given name. It is recomended to only call this function
 # from the current state, since it will fail if this state has not been the current state at least
 # once. To change the current state from another script, use the 'change_state' function on the
-# FiniteStateMachine node
+# FiniteStateMachine node.
 func change_state(state_name: String) -> void:
 	if is_instance_valid(state_machine):
 		state_machine.change_state(state_name)
