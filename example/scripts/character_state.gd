@@ -7,12 +7,12 @@ extends StateMachineState
 
 
 ## Node path to the character.
-@export_node_path("CharacterBody2D") var _character: NodePath = "../.."
+export(NodePath) var _character: NodePath = "../.."
 
 # Reference to the character node.
-@onready var character: CharacterBody2D = get_node(_character)
+onready var character: KinematicBody2D = get_node(_character)
 
 
 # Called when an animation is finished when this state is active.
-func on_animation_finished(_anim_name: StringName) -> void:
+func on_animation_finished(_anim_name: String) -> void:
 	pass

@@ -1,5 +1,4 @@
-@icon("res://addons/finite_state_machine/icons/state_machine_state.svg")
-class_name StateMachineState
+class_name StateMachineState, "res://addons/finite_state_machine/icons/state_machine_state.svg"
 extends Node
 
 
@@ -9,7 +8,7 @@ extends Node
 
 # Reference to the state machine node assigned when the state machine enters this state.
 # Can be used to change the current state.
-var state_machine: FiniteStateMachine = null
+var state_machine: Node = null
 
 
 # Called when the state machine enters this state.
@@ -46,7 +45,7 @@ func change_state(state_name: String) -> void:
 	if is_instance_valid(state_machine):
 		state_machine.change_state(state_name)
 	else:
-		push_error("State ", self, " has not been yet initialized")
+		push_error(str("State ", self, " has not been yet initialized"))
 
 
 # Checks if this state is the current one.

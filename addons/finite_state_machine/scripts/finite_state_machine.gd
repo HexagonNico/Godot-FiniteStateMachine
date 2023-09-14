@@ -1,5 +1,4 @@
-@icon("res://addons/finite_state_machine/icons/finite_state_machine.svg")
-class_name FiniteStateMachine
+class_name FiniteStateMachine, "res://addons/finite_state_machine/icons/finite_state_machine.svg"
 extends Node
 
 
@@ -10,26 +9,18 @@ extends Node
 ## Signal emitted every time the current state is changed. 'new_state' is the new state node.
 ## This signal won't be emitted for the state machine's initial state or when the node is not in
 ## the scene tree to prevent the signal from being emitted more than once for the same change.
-signal state_changed(new_state: StateMachineState)
+signal state_changed(new_state)
 
+
+export var _initial_state: NodePath
 
 ## The state machine's current state.
 ## Setting this state will call 'on_exit' on the previous state and 'on_enter' on the new state.
 ## Assigning a state from the inspector allows to select an initial state.
 ## Can be set to 'null' to clear the current state and stop the state machine.
-@export var current_state: StateMachineState:
-	set(next_state):
-		# Exit from the previous state
-		if is_inside_tree() and is_instance_valid(current_state):
-			current_state.on_exit()
-		current_state = next_state
-		# Enter the new state
-		if is_instance_valid(current_state):
-			current_state.state_machine = self
-			if is_inside_tree():
-				state_changed.emit(current_state)
-				current_state.on_enter()
+var current_state: StateMachineState = null setget set_current_state
 
+var _is_ready := false
 
 # Called when the node enters the scene tree. This function is called every time the node is
 # removed and readded to the scene and ensures 'on_enter' is always called on the current state
@@ -37,7 +28,7 @@ signal state_changed(new_state: StateMachineState)
 # '_enter_tree' if the state machine node's '_ready' function has not been called yet to ensure
 # that the state node's '_ready' function is called before 'on_enter'.
 func _enter_tree() -> void:
-	if is_node_ready() and is_instance_valid(current_state):
+	if _is_ready and is_instance_valid(current_state):
 		current_state.on_enter()
 
 
@@ -46,6 +37,8 @@ func _enter_tree() -> void:
 # called after its '_ready' function, since the setter function of exported variables is called
 # before '_ready'.
 func _ready() -> void:
+	_is_ready = true
+	set_current_state(get_node(_initial_state))
 	if is_instance_valid(current_state):
 		current_state.on_enter()
 
@@ -82,6 +75,19 @@ func _exit_tree() -> void:
 func change_state(node_path: NodePath) -> void:
 	var next_state := get_node(node_path)
 	if next_state is StateMachineState:
-		current_state = next_state
+		self.current_state = next_state
 	else:
-		push_error("Node ", next_state, " at path ", node_path, " is not a StateMachineState")
+		push_error(str("Node ", next_state, " at path ", node_path, " is not a StateMachineState"))
+
+
+func set_current_state(next_state: StateMachineState) -> void:
+	# Exit from the previous state
+	if is_inside_tree() and is_instance_valid(current_state):
+		current_state.on_exit()
+	current_state = next_state
+	# Enter the new state
+	if is_instance_valid(current_state):
+		current_state.state_machine = self
+		if is_inside_tree():
+			emit_signal("state_changed", current_state)
+			current_state.on_enter()

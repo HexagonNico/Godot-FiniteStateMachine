@@ -1,2 +1,2 @@
-# Godot 4+ specific ignores
-.godot/
+# Godot 3.5 ignores
+.import/

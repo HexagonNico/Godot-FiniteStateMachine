@@ -2,7 +2,7 @@ class_name BaseState
 extends CharacterState
 
 
-@export var speed: float = 300.0
+export var speed: float = 300.0
 
 
 # Called every frame when this state is active.
@@ -25,4 +25,4 @@ func on_process(_delta: float) -> void:
 
 # Called every physics frame when this state is active.
 func on_physics_process(_delta: float) -> void:
-	character.move_and_slide()
+	character.velocity = character.move_and_slide(character.velocity)

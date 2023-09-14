@@ -2,9 +2,9 @@ class_name JumpState
 extends CharacterState
 
 
-@export var jump_velocity: float = 400.0
+export var jump_velocity: float = 400.0
 
-@onready var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
+onready var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func on_enter() -> void:
@@ -20,8 +20,9 @@ func on_process(delta: float) -> void:
 	else:
 		character.play_animation("jump")
 	character.velocity.y += gravity * delta
+	print(character.velocity)
 
 
 # Called every physics frame when this state is active.
 func on_physics_process(_delta: float) -> void:
-	character.move_and_slide()
+	character.velocity = character.move_and_slide(character.velocity)
