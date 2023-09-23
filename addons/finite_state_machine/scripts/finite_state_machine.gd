@@ -30,6 +30,9 @@ signal state_changed(new_state: StateMachineState)
 				state_changed.emit(current_state)
 				current_state.on_enter()
 
+# Private variable holding a dictionary that works as a cache for states used in 'change_state'.
+var _cache: Dictionary = {}
+
 
 # Called when the node enters the scene tree. This function is called every time the node is
 # removed and readded to the scene and ensures 'on_enter' is always called on the current state
@@ -80,8 +83,17 @@ func _exit_tree() -> void:
 # If the node at the given path is not a StateMachineState node, the current state won't be changed
 # and an error will be logged.
 func change_state(node_path: NodePath) -> void:
-	var next_state := get_node(node_path)
-	if next_state is StateMachineState:
-		current_state = next_state
+	# Use the cached value if that state has already been accessed
+	if is_instance_valid(_cache.get(node_path)):
+		current_state = _cache[node_path]
+	# Get the node if the requested state has not been accessed yet or if it was deleted
 	else:
-		push_error("Node ", next_state, " at path ", node_path, " is not a StateMachineState")
+		# Get the node or log an error if the path does not exist
+		var next_state := get_node(node_path) as StateMachineState
+		# Change to the new state and cache the value
+		if is_instance_valid(next_state):
+			_cache[node_path] = next_state
+			current_state = next_state
+		# Log an error if the result is null or it is not a StateMachineState node.
+		else:
+			push_error("Node ", next_state, " at path ", node_path, " is not a valid StateMachineState")

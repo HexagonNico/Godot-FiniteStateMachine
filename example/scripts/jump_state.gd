@@ -7,6 +7,7 @@ extends CharacterState
 @onready var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
+# Called when the state machine enters this state.
 func on_enter() -> void:
 	character.velocity.y = -jump_velocity
 
