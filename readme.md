@@ -23,11 +23,11 @@ It is also possible to install the plugin manually by downloading the zip archiv
 The plugin contains two [script classes](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#doc-gdscript-basics-class-name): `FiniteStateMachine` and `StateMachineState`.
 Both can be added to your scenes as nodes through the "Create New Node" menu.
 
+![Create node](/example/readme/create_node.png)
+
 The **FiniteStateMachine** node can be added as a child of your character's node and will handle the state machine's logic.
 
 The **StateMachineState** class is an abstract class. You can extend this script to create your states.
-
-![Create node](/example/readme/create_node.png)
 
 ## Creating a state machine
 
