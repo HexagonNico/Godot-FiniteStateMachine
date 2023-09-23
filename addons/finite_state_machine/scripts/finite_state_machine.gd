@@ -20,8 +20,10 @@ export var _initial_state: NodePath
 # Can be set to 'null' to clear the current state and stop the state machine.
 var current_state: StateMachineState = null setget set_current_state
 
-# Needed to keep track of whether the '_ready' function has been called or not.
-var _is_ready := false
+# Private variable holding a dictionary used as a cache for the 'change_state' function.
+var _cache: Dictionary = {}
+# Private variable needed to keep track of whether the '_ready' function has been called or not.
+var _is_ready: bool = false
 
 
 # Called when the node enters the scene tree. This function is called every time the node is
@@ -39,6 +41,7 @@ func _enter_tree() -> void:
 # called after its '_ready' function.
 func _ready() -> void:
 	_is_ready = true
+	# The 'onready' keyword cannot be used because the setter function would not be called
 	self.current_state = get_node(_initial_state)
 	if is_instance_valid(current_state):
 		current_state.on_enter()
@@ -74,11 +77,20 @@ func _exit_tree() -> void:
 # If the node at the given path is not a StateMachineState node, the current state won't be changed
 # and an error will be logged.
 func change_state(node_path: NodePath) -> void:
-	var next_state := get_node(node_path)
-	if next_state is StateMachineState:
-		self.current_state = next_state
+	# Use the cached value if that state has already been accessed
+	if is_instance_valid(_cache.get(node_path)):
+		self.current_state = _cache[node_path]
+	# Get the node if the requested state has not been accessed yet or if it was deleted
 	else:
-		push_error(str("Node ", next_state, " at path ", node_path, " is not a StateMachineState"))
+		# Get the node or log an error if the path does not exist
+		var next_state := get_node(node_path) as StateMachineState
+		# Change to the new state and cache the value
+		if is_instance_valid(next_state):
+			_cache[node_path] = next_state
+			self.current_state = next_state
+		# Log an error if the result is null or it is not a StateMachineState node.
+		else:
+			push_error(str("Node ", next_state, " at path ", node_path, " is not a valid StateMachineState"))
 
 
 # Setter function for 'current_state'.
