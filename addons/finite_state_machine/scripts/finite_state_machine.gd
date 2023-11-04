@@ -17,7 +17,7 @@ signal state_changed(new_state: StateMachineState)
 ## Setting this state will call 'on_exit' on the previous state and 'on_enter' on the new state.
 ## Assigning a state from the inspector allows to select an initial state.
 ## Can be set to 'null' to clear the current state and stop the state machine.
-@export var current_state: StateMachineState: set = set_current_state
+@export var current_state: StateMachineState = null: set = set_current_state
 
 # Private variable holding a dictionary that works as a cache for states used in 'change_state'.
 var _cache: Dictionary = {}
@@ -45,13 +45,15 @@ func _ready() -> void:
 		current_state.on_enter()
 
 
-# Called every frame. Calls the 'on_process' function on the current state.
+# Called every frame.
+# Calls the 'on_process' function on the current state.
 func _process(delta: float) -> void:
 	if is_instance_valid(current_state):
 		current_state.on_process(delta)
 
 
-# Called every physics frame. Calls the 'on_physics_process' function on the current state.
+# Called every physics frame.
+# Calls the 'on_physics_process' function on the current state.
 func _physics_process(delta: float) -> void:
 	if is_instance_valid(current_state):
 		current_state.on_physics_process(delta)
@@ -64,7 +66,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		current_state.on_input(event)
 
 
-# Called when the node exits the scene tree. Calls the 'on_exit' function on the current state.
+# Called when the node exits the scene tree.
+# Calls the 'on_exit' function on the current state.
 func _exit_tree() -> void:
 	if is_instance_valid(current_state):
 		current_state.on_exit()
