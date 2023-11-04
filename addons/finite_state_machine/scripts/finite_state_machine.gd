@@ -17,21 +17,13 @@ signal state_changed(new_state: StateMachineState)
 ## Setting this state will call 'on_exit' on the previous state and 'on_enter' on the new state.
 ## Assigning a state from the inspector allows to select an initial state.
 ## Can be set to 'null' to clear the current state and stop the state machine.
-@export var current_state: StateMachineState:
-	set(next_state):
-		# Exit from the previous state
-		if is_inside_tree() and is_instance_valid(current_state):
-			current_state.on_exit()
-		current_state = next_state
-		# Enter the new state
-		if is_instance_valid(current_state):
-			current_state.state_machine = self
-			if is_inside_tree():
-				state_changed.emit(current_state)
-				current_state.on_enter()
+@export var current_state: StateMachineState: set = set_current_state
 
 # Private variable holding a dictionary that works as a cache for states used in 'change_state'.
 var _cache: Dictionary = {}
+
+# Remembers what the previous state was for the 'previous_state' function.
+var _previous_state: StateMachineState = null
 
 
 # Called when the node enters the scene tree. This function is called every time the node is
@@ -97,3 +89,31 @@ func change_state(node_path: NodePath) -> void:
 		# Log an error if the result is null or it is not a StateMachineState node.
 		else:
 			push_error("Node ", next_state, " at path ", node_path, " is not a valid StateMachineState")
+
+
+# Changes the current state to the previous one or logs an error if the previous state is null or
+# if the node has been freed. Only one previous state is kept in memory, therefore 'previous_state'
+# may only be called once per state.
+func previous_state() -> void:
+	# Change to the previous state
+	if is_instance_valid(_previous_state):
+		current_state = _previous_state
+		_previous_state = null
+	# Log an error if the previous state is null or has been freed.
+	else:
+		push_error("Previous state ", _previous_state, " is not valid")
+
+
+# Setter function for 'current_state'.
+func set_current_state(next_state: StateMachineState) -> void:
+	# Exit from the previous state
+	if is_inside_tree() and is_instance_valid(current_state):
+		current_state.on_exit()
+	_previous_state = current_state
+	current_state = next_state
+	# Enter the new state
+	if is_instance_valid(current_state):
+		current_state.state_machine = self
+		if is_inside_tree():
+			state_changed.emit(current_state)
+			current_state.on_enter()
