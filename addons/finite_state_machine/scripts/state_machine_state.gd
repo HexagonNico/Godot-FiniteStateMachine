@@ -3,8 +3,14 @@ class_name StateMachineState
 extends Node
 
 
-## Abstract class used as base for state machine states.
+## Class used as base for state machine states.
 ## Create a script that inherits from this class to create a state.
+
+
+## Signal emitted when the state machine enters this state after calling the 'on_enter' function.
+signal state_entered
+## Signal emitted when the state machine exits this state after calling the 'on_exit' function.
+signal state_exited
 
 
 # Reference to the state machine node assigned when the state machine enters this state.
