@@ -1,3 +1,13 @@
-# Godot 3 and 4 ignores
-.godot/
+# Godot specific ignores
 .import/
+.godot/
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# External editors
+.vscode
+
+# Directories
+.DS_Store
+.directory
