@@ -34,6 +34,7 @@ var _previous_state: StateMachineState = null
 func _enter_tree() -> void:
 	if is_node_ready() and is_instance_valid(current_state):
 		current_state.on_enter()
+		current_state.state_entered.emit()
 
 
 # Called when the node enters the scene tree for the first time. This function is only called once
@@ -43,6 +44,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if is_instance_valid(current_state):
 		current_state.on_enter()
+		current_state.state_entered.emit()
 
 
 # Called every frame.
@@ -71,6 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _exit_tree() -> void:
 	if is_instance_valid(current_state):
 		current_state.on_exit()
+		current_state.state_exited.emit()
 
 
 # Changes state to the one at the given path relative to the state machine node. This function can
@@ -112,6 +115,7 @@ func set_current_state(next_state: StateMachineState) -> void:
 	# Exit from the previous state
 	if is_inside_tree() and is_instance_valid(current_state):
 		current_state.on_exit()
+		current_state.state_exited.emit()
 	_previous_state = current_state
 	current_state = next_state
 	# Enter the new state
@@ -120,3 +124,4 @@ func set_current_state(next_state: StateMachineState) -> void:
 		if is_inside_tree():
 			state_changed.emit(current_state)
 			current_state.on_enter()
+			current_state.state_entered.emit()

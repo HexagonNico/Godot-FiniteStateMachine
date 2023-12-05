@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
-@onready var _state_machine: Node = $FiniteStateMachine
+@onready var _state_machine: FiniteStateMachine = $FiniteStateMachine
 
 
 func play_animation(anim_name: String) -> void:
