@@ -6,7 +6,7 @@
 *.translation
 
 # External editors
-.vscode
+.vscode/
 
 # Directories
 .DS_Store
