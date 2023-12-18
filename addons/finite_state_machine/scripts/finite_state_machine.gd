@@ -47,27 +47,6 @@ func _ready() -> void:
 		current_state.state_entered.emit()
 
 
-# Called every frame.
-# Calls the 'on_process' function on the current state.
-func _process(delta: float) -> void:
-	if is_instance_valid(current_state):
-		current_state.on_process(delta)
-
-
-# Called every physics frame.
-# Calls the 'on_physics_process' function on the current state.
-func _physics_process(delta: float) -> void:
-	if is_instance_valid(current_state):
-		current_state.on_physics_process(delta)
-
-
-# Called when there is an input event that hasn't been consumed by the gui.
-# Calls the 'on_input' function on the current state.
-func _unhandled_input(event: InputEvent) -> void:
-	if is_instance_valid(current_state):
-		current_state.on_input(event)
-
-
 # Called when the node exits the scene tree.
 # Calls the 'on_exit' function on the current state.
 func _exit_tree() -> void:
