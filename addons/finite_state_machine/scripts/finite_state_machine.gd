@@ -32,7 +32,11 @@ var _previous_state: StateMachineState = null
 # '_enter_tree' if the state machine node's '_ready' function has not been called yet to ensure
 # that the state node's '_ready' function is called before 'on_enter'.
 func _enter_tree() -> void:
+	for state in get_children():
+		state.process_mode = Node.PROCESS_MODE_DISABLED
+	
 	if is_node_ready() and is_instance_valid(current_state):
+		current_state.process_mode = Node.PROCESS_MODE_INHERIT
 		current_state.on_enter()
 		current_state.state_entered.emit()
 
@@ -42,7 +46,11 @@ func _enter_tree() -> void:
 # called after its '_ready' function, since the setter function of exported variables is called
 # before '_ready'.
 func _ready() -> void:
+	for state in get_children():
+		state.process_mode = Node.PROCESS_MODE_DISABLED
+	
 	if is_instance_valid(current_state):
+		current_state.process_mode = Node.PROCESS_MODE_INHERIT
 		current_state.on_enter()
 		current_state.state_entered.emit()
 
@@ -53,6 +61,7 @@ func _exit_tree() -> void:
 	if is_instance_valid(current_state):
 		current_state.on_exit()
 		current_state.state_exited.emit()
+		current_state.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 # Changes state to the one at the given path relative to the state machine node. This function can
@@ -95,12 +104,14 @@ func set_current_state(next_state: StateMachineState) -> void:
 	if is_inside_tree() and is_instance_valid(current_state):
 		current_state.on_exit()
 		current_state.state_exited.emit()
+		current_state.process_mode = Node.PROCESS_MODE_DISABLED
 	_previous_state = current_state
 	current_state = next_state
 	# Enter the new state
 	if is_instance_valid(current_state):
 		current_state.state_machine = self
 		if is_inside_tree():
+			current_state.process_mode = Node.PROCESS_MODE_INHERIT
 			state_changed.emit(current_state)
 			current_state.on_enter()
 			current_state.state_entered.emit()

@@ -13,7 +13,7 @@ func on_enter() -> void:
 
 
 # Called every frame when this state is active.
-func on_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if character.is_on_floor():
 		change_state("Walk")
 		return
@@ -25,5 +25,5 @@ func on_process(delta: float) -> void:
 
 
 # Called every physics frame when this state is active.
-func on_physics_process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	character.move_and_slide()

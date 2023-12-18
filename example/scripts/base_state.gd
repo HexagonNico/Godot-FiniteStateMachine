@@ -6,7 +6,7 @@ extends CharacterState
 
 
 # Called every frame when this state is active.
-func on_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Basic movement
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
@@ -24,5 +24,5 @@ func on_process(_delta: float) -> void:
 
 
 # Called every physics frame when this state is active.
-func on_physics_process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	character.move_and_slide()
