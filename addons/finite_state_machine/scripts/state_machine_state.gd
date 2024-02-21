@@ -1,4 +1,4 @@
-@icon("res://addons/finite_state_machine/icons/state_machine_state.svg")
+@icon("../icons/state_machine_state.svg")
 class_name StateMachineState
 extends Node
 
@@ -40,6 +40,21 @@ func on_input(_event: InputEvent) -> void:
 
 # Called when the state machine exits this state.
 func on_exit() -> void:
+	pass
+
+
+# Called when the state machine's AnimationPlayer emits the 'animation_started' signal.
+func on_animation_started(_anim_name: StringName) -> void:
+	pass
+
+
+# Called when the state machine's AnimationPlayer emits the 'animation_finished' signal.
+func on_animation_finished(_anim_name: StringName) -> void:
+	pass
+
+
+# Called when the state machine's AnimationPlayer emits the 'animation_changed' signal.
+func on_animation_changed(_old_name: StringName, _new_name: StringName) -> void:
 	pass
 
 

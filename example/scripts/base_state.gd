@@ -18,9 +18,9 @@ func on_process(_delta: float) -> void:
 		change_state("Jump")
 	# Update animation
 	if Input.is_action_just_pressed("ui_left"):
-		character.play_animation("walk_left")
+		state_machine.animation_player.play("walk_left")
 	if Input.is_action_just_pressed("ui_right"):
-		character.play_animation("walk_right")
+		state_machine.animation_player.play("walk_right")
 
 
 # Called every physics frame when this state is active.

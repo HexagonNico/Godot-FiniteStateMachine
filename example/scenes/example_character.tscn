@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://cf7fpnsgytoc2"]
+[gd_scene load_steps=13 format=3 uid="uid://cf7fpnsgytoc2"]
 
 [ext_resource type="Texture2D" uid="uid://cca4q4wamp7ng" path="res://example/sprites/arrow.png" id="1_3xuxr"]
-[ext_resource type="Script" path="res://example/scenes/example_character.gd" id="1_bqwpn"]
 [ext_resource type="Script" path="res://addons/finite_state_machine/scripts/finite_state_machine.gd" id="2_s8tvj"]
 [ext_resource type="Script" path="res://example/scripts/walk_state.gd" id="4_tt3hl"]
 [ext_resource type="Script" path="res://example/scripts/jump_state.gd" id="5_nues7"]
@@ -103,7 +102,6 @@ _data = {
 }
 
 [node name="ExampleCharacter" type="CharacterBody2D"]
-script = ExtResource("1_bqwpn")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pdw5y")
@@ -115,9 +113,10 @@ hframes = 3
 vframes = 4
 metadata/_edit_lock_ = true
 
-[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "animation_player")]
 script = ExtResource("2_s8tvj")
 current_state = NodePath("Walk")
+animation_player = NodePath("../AnimationPlayer")
 
 [node name="Walk" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("4_tt3hl")

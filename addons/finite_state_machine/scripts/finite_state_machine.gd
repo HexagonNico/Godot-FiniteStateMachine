@@ -1,4 +1,4 @@
-@icon("res://addons/finite_state_machine/icons/finite_state_machine.svg")
+@icon("../icons/finite_state_machine.svg")
 class_name FiniteStateMachine
 extends Node
 
@@ -18,6 +18,12 @@ signal state_changed(new_state: StateMachineState)
 ## Assigning a state from the inspector allows to select an initial state.
 ## Can be set to 'null' to clear the current state and stop the state machine.
 @export var current_state: StateMachineState = null: set = set_current_state
+
+## Optional reference to an AnimationPlayer node.
+## If assigned, the state machine will call the 'on_animation_finished', 'on_animation_started',
+## and the 'on_animation_changed' functions on the current state when the respective signals are
+## emitted from the AnimationPlayer node.
+@export var animation_player: AnimationPlayer = null: set = set_animation_player
 
 # Private variable holding a dictionary that works as a cache for states used in 'change_state'.
 var _cache: Dictionary = {}
@@ -125,3 +131,40 @@ func set_current_state(next_state: StateMachineState) -> void:
 			state_changed.emit(current_state)
 			current_state.on_enter()
 			current_state.state_entered.emit()
+
+
+# Setter function for 'animation_player'.
+func set_animation_player(value: AnimationPlayer) -> void:
+	# Disconnect signals from the previous value if there was any
+	if is_instance_valid(animation_player):
+		animation_player.animation_started.disconnect(_on_animation_started)
+		animation_player.animation_finished.disconnect(_on_animation_finished)
+		animation_player.animation_changed.disconnect(_on_animation_changed)
+	# Assign the new value
+	animation_player = value
+	# Connect signals to the animation player
+	if is_instance_valid(animation_player):
+		animation_player.animation_started.connect(_on_animation_started)
+		animation_player.animation_finished.connect(_on_animation_finished)
+		animation_player.animation_changed.connect(_on_animation_changed)
+
+
+# Called by the 'animation_started' signal emitted from the AnimationPlayer node.
+# An AnimationPlayer needs to be assigned for this to be called.
+func _on_animation_started(anim_name: StringName) -> void:
+	if is_instance_valid(current_state):
+		current_state.on_animation_started(anim_name)
+
+
+# Called by the 'animation_finished' signal emitted from the AnimationPlayer node.
+# An AnimationPlayer needs to be assigned for this function to be called.
+func _on_animation_finished(anim_name: StringName) -> void:
+	if is_instance_valid(current_state):
+		current_state.on_animation_finished(anim_name)
+
+
+# Called by the 'animation_changed' signal emitted from the AnimationPlayer node.
+# An AnimationPlayer needs to be assigned for this function to be called.
+func _on_animation_changed(old_name: StringName, new_name: StringName) -> void:
+	if is_instance_valid(current_state):
+		current_state.on_animation_changed(old_name, new_name)

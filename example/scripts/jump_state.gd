@@ -14,14 +14,13 @@ func on_enter() -> void:
 
 # Called every frame when this state is active.
 func on_process(delta: float) -> void:
-	if character.is_on_floor():
-		change_state("Walk")
-		return
-	if character.velocity.y > 0.0:
-		character.play_animation("fall")
-	else:
-		character.play_animation("jump")
 	character.velocity.y += gravity * delta
+	if character.velocity.y > 0.0:
+		state_machine.animation_player.play("fall")
+		if character.is_on_floor():
+			change_state("Walk")
+	else:
+		state_machine.animation_player.play("jump")
 
 
 # Called every physics frame when this state is active.
