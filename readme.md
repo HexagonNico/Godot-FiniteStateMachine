@@ -80,3 +80,7 @@ You can now change between states from your scripts by setting `current_state` o
 See the comments in the scripts for a full explanation.
 
 ![State machine scene](/example/readme/state_machine_scene.png)
+
+## Additional information
+
+Important note: Do not delete `.godot/global_script_class_cache.cfg` when this plugin is installed until [Issue 81615](https://github.com/godotengine/godot/issues/81615) is resolved.
