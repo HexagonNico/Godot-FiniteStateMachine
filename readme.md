@@ -79,7 +79,7 @@ Assign a state to the state machine from the inspector to set that as the initia
 
 You can now change between states from your scripts by setting the `current_state` property.
 
-![Player character scene](/example/readme/player_character.png)
+![Player character scene](/example/readme/player_character_scene.png)
 
 ## Examples
 
