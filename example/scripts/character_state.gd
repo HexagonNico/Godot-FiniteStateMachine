@@ -8,6 +8,5 @@ extends StateMachineState
 
 ## Node path to the character.
 @export_node_path("CharacterBody2D") var _character: NodePath = "../.."
-
 # Reference to the character node.
 @onready var character: CharacterBody2D = get_node(_character)

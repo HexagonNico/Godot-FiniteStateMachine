@@ -3,73 +3,70 @@ class_name StateMachineState
 extends Node
 
 
-## Class used as base for state machine states.
-## Create a script that inherits from this class to create a state.
+## Base class used to implement state machine states.
+##
+## Base class used to implement state machine states.
+## States must be created by extending this class and implementing the state's virtual functions.
+## A state node must be a direct child of a [StateMachine] node.
+## [br][br]
+## States are made current and non current by setting their [member Node.process_mode] property.
+## The current state will use [constant Node.PROCESS_MODE_INHERIT], while the other states use [constant Node.PROCESS_MODE_DISABLED].
+## Virtual functions such as [method Node._process] will only be called on the current state.
 
 
-## Signal emitted when the state machine enters this state after calling the 'on_enter' function.
+## Signal emitted when the state machine enters this state.
 signal state_entered
-## Signal emitted when the state machine exits this state after calling the 'on_exit' function.
+## Signal emitted when the state machine exits this state.
 signal state_exited
 
 
-# Reference to the state machine node assigned when the state machine enters this state.
-# Can be used to change the current state.
-var state_machine: FiniteStateMachine = null
-
-
 # Called when the state machine enters this state.
-func on_enter() -> void:
-	pass
-
-
-# Called every frame when this state is active.
-func on_process(_delta: float) -> void:
-	pass
-
-
-# Called every physics frame when this state is active.
-func on_physics_process(_delta: float) -> void:
-	pass
-
-
-# Called when there is an input event while this state is active.
-func on_input(_event: InputEvent) -> void:
+func _enter_state() -> void:
 	pass
 
 
 # Called when the state machine exits this state.
-func on_exit() -> void:
+func _exit_state() -> void:
 	pass
 
 
-# Called when the state machine's AnimationPlayer emits the 'animation_started' signal.
-func on_animation_started(_anim_name: StringName) -> void:
-	pass
+## Returns the state machine node.
+## Generates an error and returns [code]null[/code] if this node is not a child of a [StateMachine] node.
+func get_state_machine() -> StateMachine:
+	if get_parent() is not StateMachine:
+		push_error("State node must be a child of a state machine node")
+	return get_parent() as StateMachine
 
 
-# Called when the state machine's AnimationPlayer emits the 'animation_finished' signal.
-func on_animation_finished(_anim_name: StringName) -> void:
-	pass
-
-
-# Called when the state machine's AnimationPlayer emits the 'animation_changed' signal.
-func on_animation_changed(_old_name: StringName, _new_name: StringName) -> void:
-	pass
-
-
-# Helper function that calls the 'change_state' function on the FiniteStateMachine node to change
-# the current state to the one with the given name. It is recomended to only call this function
-# from the current state, since it will fail if this state has not been the current state at least
-# once. To change the current state from another script, use the 'change_state' function on the
-# FiniteStateMachine node
-func change_state(state_name: String) -> void:
-	if is_instance_valid(state_machine):
-		state_machine.change_state(state_name)
-	else:
-		push_error("State ", self, " has not been yet initialized")
-
-
-# Checks if this state is the current one.
+## Checks if this state is the current state.
 func is_current_state() -> bool:
+	var state_machine := get_state_machine()
 	return is_instance_valid(state_machine) and state_machine.current_state == self
+
+
+# Customizes the behaviour of 'set'.
+func _set(property: StringName, value: Variant) -> bool:
+	# Call the '_enter_state' or '_exit_state' functions when the node is enabled or disabled
+	if property == &"process_mode":
+		# Enter the state if the node is being enabled
+		if value == Node.PROCESS_MODE_INHERIT:
+			# The node cannot be enabled without setting it as the current state
+			if not is_current_state():
+				push_error("Cannot enable node because it is not the current state")
+				return true
+			# Enter the state
+			_enter_state()
+			state_entered.emit()
+		# Exit the state if the node is being disabled
+		elif value == Node.PROCESS_MODE_DISABLED:
+			# Do nothing if the state is not current to allow the node to be disabled from the state machine's '_ready' function
+			if is_current_state():
+				# Exit the state
+				_exit_state()
+				state_exited.emit()
+		# Process mode for state nodes should either be 'inherit' or 'disabled'
+		else:
+			push_error("Process mode for state nodes should either be 'inherit' or 'disabled'. For a different behaviour, change the process mode of the state machine node.")
+			return true
+	# The property should be handled normally
+	return false

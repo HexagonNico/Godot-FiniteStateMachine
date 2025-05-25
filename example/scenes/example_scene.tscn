@@ -1,24 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://cn8rcyoq1f1cc"]
+[gd_scene load_steps=5 format=3 uid="uid://b7cii3thkjhh8"]
 
-[ext_resource type="PackedScene" uid="uid://cf7fpnsgytoc2" path="res://example/scenes/example_character.tscn" id="1_6fsvm"]
+[ext_resource type="PackedScene" uid="uid://go5s03id48xw" path="res://example/scenes/player_character.tscn" id="1_m7hrk"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoogl"]
-size = Vector2(1024, 64)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_m7hrk"]
+distance = -384.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4vuxx"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_35raa"]
+normal = Vector2(-1, 0)
+distance = -1152.0
 
 [node name="ExampleScene" type="Node2D"]
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="World" type="StaticBody2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape" type="CollisionShape2D" parent="Floor"]
-position = Vector2(576, 544)
-shape = SubResource("RectangleShape2D_aoogl")
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
-
-[node name="Polygon" type="Polygon2D" parent="Floor"]
-color = Color(0, 0.6, 0.701961, 1)
-polygon = PackedVector2Array(64, 512, 64, 576, 1088, 576, 1088, 512)
+[node name="BottomShape" type="CollisionShape2D" parent="World"]
+shape = SubResource("WorldBoundaryShape2D_m7hrk")
 metadata/_edit_lock_ = true
 
-[node name="ExampleCharacter" parent="." instance=ExtResource("1_6fsvm")]
-position = Vector2(192, 496)
+[node name="LeftShape" type="CollisionShape2D" parent="World"]
+shape = SubResource("WorldBoundaryShape2D_4vuxx")
+metadata/_edit_lock_ = true
+
+[node name="RightShape" type="CollisionShape2D" parent="World"]
+shape = SubResource("WorldBoundaryShape2D_35raa")
+metadata/_edit_lock_ = true
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("1_m7hrk")]
+position = Vector2(64, 384)
+
+[node name="Camera" type="Camera2D" parent="PlayerCharacter"]
+position = Vector2(0, -24)
+zoom = Vector2(2, 2)

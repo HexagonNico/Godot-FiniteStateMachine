@@ -14,9 +14,7 @@ See the [Godot docs](https://docs.godotengine.org/en/stable/tutorials/plugins/ed
 
 2. Download the plugin and install the contents of the `addons` and the `script_templates` folders into your project's directory. You don't need the contents of the `example` folder.
 
-3. Go to `Project -> Project Settings... -> Plugins` and enable the plugin by checking "Enable".
-
-It is also possible to install the plugin manually by downloading the zip archive from the [Releases section](https://github.com/HexagonNico/GodotPlugin-FiniteStateMachine/releases).
+3. Go to **Project -> Project Settings... -> Plugins** and enable the plugin by checking "Enable".
 
 ## Plugin contents
 
@@ -27,13 +25,14 @@ Both can be added to your scenes as nodes through the "Create New Node" menu.
 
 The **FiniteStateMachine** node can be added as a child of your character's node and will handle the state machine's logic.
 
-The **StateMachineState** class is an abstract class. You can extend this script to create your states.
+The **StateMachineState** class is an abstract class.
+You can extend this script to create your states.
 
 ## Creating a state machine
 
 Open the "Create New Node" menu and search for "FiniteStateMachine". Add this node in your character's scene.
 
-![State machine inspector](/example/readme/state_machine_inspector.png)
+![State machine scene](/example/readme/state_machine_scene.png)
 
 A state machine by itself does nothing, you need to create a script for a state.
 From the "Create script" menu, create a script that inherits from `StateMachineState`.
@@ -43,44 +42,54 @@ From the "Create script" menu, create a script that inherits from `StateMachineS
 The script template downloaded with the plugin will generate some function stubs.
 You can now implement these functions to create a state.
 
+The Engine's built-in virtual functions will only be called on the active state.
+
 ```
 class_name MyState
 extends StateMachineState
 
 
 # Called when the state machine enters this state.
-func on_enter() -> void:
+func _enter_state() -> void:
 	pass
 
 
 # Called every frame when this state is active.
-func on_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	pass
 
 
-# Called every physics frame when this state is active.
-func on_physics_process(delta: float) -> void:
+# Called every physics tick when this state is active.
+func _physics_process(_delta: float) -> void:
 	pass
 
 
-# Called when there is an input event while this state is active.
-func on_input(event: InputEvent) -> void:
+# Called when there is an input event when this state is active.
+func _unhandled_input(event: InputEvent) -> void:
 	pass
 
 
 # Called when the state machine exits this state.
-func on_exit() -> void:
+func _exit_state() -> void:
 	pass
 ```
 
 Once a state is created, you can add it as a child of the FiniteStateMachine node.
 Assign a state to the state machine from the inspector to set that as the initial state.
 
-You can now change between states from your scripts by setting `current_state` or using the `change_state` function.
-See the comments in the scripts for a full explanation.
+You can now change between states from your scripts by setting the `current_state` property.
 
-![State machine scene](/example/readme/state_machine_scene.png)
+![Player character scene](/example/readme/player_character.png)
 
-## Additional information
+## Examples
 
-Important note: Do not delete `.godot/global_script_class_cache.cfg` when this plugin is installed until [Issue 81615](https://github.com/godotengine/godot/issues/81615) is resolved.
+The [example](/example) directory contains a simple implementation of a state machine.
+See [grounded_state.gd](/example/scripts/grounded_state.gd) for an example implementation of a state.
+
+Another example can be seen in the [2D platformer section of the Twenty Games Challenge](https://codeberg.org/HexagonNico/TwentyGamesChallenge/src/branch/main/game3)
+
+## Credits
+
+* Project icon: https://creazilla.com/media/icon/3211126/state-machine (Apache License 2.0)
+
+* Example character: https://rvros.itch.io/animated-pixel-hero
