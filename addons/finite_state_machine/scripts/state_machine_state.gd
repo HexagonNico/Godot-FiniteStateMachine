@@ -1,3 +1,4 @@
+@abstract
 @icon("../icons/state_machine_state.svg")
 class_name StateMachineState
 extends Node
@@ -14,9 +15,9 @@ extends Node
 ## Virtual functions such as [method Node._process] will only be called on the current state.
 
 
-## Signal emitted when the state machine enters this state.
+## Signal emitted when the state machine enters this state after [method _enter_state] has been called.
 signal state_entered
-## Signal emitted when the state machine exits this state.
+## Signal emitted when the state machine exits this state after [method _exit_state] has been called.
 signal state_exited
 
 
